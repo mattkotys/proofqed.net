@@ -1,0 +1,35 @@
+.proof-logo {
+  position: relative;
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  background: #183d37;
+  color: #f7f5ef;
+  font-family: Georgia, serif;
+  font-size: 1.25rem;
+}
+
+.proof-logo > span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+@keyframes therefore-fade {
+  0%, 40%, 100% { opacity: 1; }
+  50%, 90%     { opacity: 0; }
+}
+
+@keyframes because-fade {
+  0%, 40%, 100% { opacity: 0; }
+  50%, 90%     { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proof-logo .therefore { animation: none; }
+  .proof-logo .because  { animation: none; opacity: 0; }
+}
