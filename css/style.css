@@ -2,7 +2,6 @@
 
 * { box-sizing:border-box; }
 body { margin:0; background:var(--paper); color:var(--ink); font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.6; }
-a { color:inherit; }
 a:focus-visible { outline:3px solid #997b32; outline-offset:5px; }
 .wrap { max-width:1120px; margin:auto; padding:0 24px; }
 header { border-bottom:1px solid var(--line); }
