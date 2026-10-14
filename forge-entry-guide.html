@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10.2" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Forge API How-To</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Forge API How-To</h1>
+</header>
+<h1 id="save-retrieve-and-retry-a-text-note-with-forge">Save, retrieve,
+and retry a text note with Forge</h1>
+<p><em>Personal project documentation sample · Matthew Kotys · October
+13, 2026</em></p>
+<p>Use Forge’s existing FastAPI service to save a synthetic text note,
+retrieve it, and retry the submission without creating a duplicate.</p>
+<h2 id="before-you-begin">Before you begin</h2>
+<ul>
+<li>Have Forge running with its entries router and database
+configured.</li>
+<li>Use a Bash-compatible terminal with <code>curl</code>, on a network
+that can reach the service.</li>
+<li>Know the service’s base URL, including its port. This guide uses a
+placeholder to avoid publishing a private network address.</li>
+<li>Expect the POST to save one test note. This guide assumes an
+existing installation; it does not cover installation or authentication.
+The tested deployment required no credentials.</li>
+</ul>
+<h2 id="set-the-service-address">1. Set the service address</h2>
+<p>Replace the placeholder with your actual base URL. Do not include a
+trailing slash.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">FORGE_URL</span><span class="op">=</span><span class="st">&#39;http://&lt;forge-host&gt;:&lt;port&gt;&#39;</span></span></code></pre></div>
+<p>Keep this terminal open for the remaining commands.</p>
+<h2 id="save-a-text-note">2. Save a text note</h2>
+<p>Run the following request. For a fresh walkthrough, replace
+<code>forge-howto-test-001</code> with a new client identifier. Keep
+that identifier unchanged when testing retries.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-i</span> <span class="at">-X</span> POST <span class="st">&quot;</span><span class="va">$FORGE_URL</span><span class="st">/entries&quot;</span> <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-H</span> <span class="st">&#39;Content-Type: application/json&#39;</span> <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data</span> <span class="st">&#39;{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">    &quot;kind&quot;: &quot;text&quot;,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="st">    &quot;category&quot;: &quot;documentation-test&quot;,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st">    &quot;text&quot;: &quot;Testing the Forge how-to guide.&quot;,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">    &quot;client_id&quot;: &quot;forge-howto-test-001&quot;,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">    &quot;created_at&quot;: &quot;2026-10-13T22:25:00Z&quot;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="st">  }&#39;</span></span></code></pre></div>
+<p>The fixed timestamp reproduces the tested request. For a current
+note, use a current ISO 8601 timestamp with a timezone: <code>Z</code>
+represents UTC.</p>
+<p>Expect <code>HTTP/1.1 200 OK</code> and a JSON entry. The first
+tested request returned:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;category&quot;</span><span class="fu">:</span> <span class="st">&quot;documentation-test&quot;</span><span class="fu">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;text&quot;</span><span class="fu">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;text&quot;</span><span class="fu">:</span> <span class="st">&quot;Testing the Forge how-to guide.&quot;</span><span class="fu">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;received_at&quot;</span><span class="fu">:</span> <span class="st">&quot;2026-10-13T22:25:17.868016Z&quot;</span><span class="fu">,</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="st">&quot;4638ae5c-2207-4b0f-a7eb-06dd2b521f08&quot;</span><span class="fu">,</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;media_path&quot;</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;client_id&quot;</span><span class="fu">:</span> <span class="st">&quot;forge-howto-test-001&quot;</span><span class="fu">,</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;created_at&quot;</span><span class="fu">:</span> <span class="st">&quot;2026-10-13T22:25:00Z&quot;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Your generated ID and receipt timestamp will differ for a newly saved
+entry. JSON field order does not matter.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>client_id</code></td>
+<td>Caller-provided identifier used to recognize repeat
+submissions.</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td>Caller-provided creation time; a timezone is required.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>Server-generated UUID for the stored entry.</td>
+</tr>
+<tr>
+<td><code>received_at</code></td>
+<td>Server-generated receipt time for a new entry.</td>
+</tr>
+<tr>
+<td><code>media_path</code></td>
+<td>Optional media location; omitted in this request and returned as
+<code>null</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="retrieve-the-note">3. Retrieve the note</h2>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-i</span> <span class="st">&quot;</span><span class="va">$FORGE_URL</span><span class="st">/entries?offset=0&amp;limit=20&quot;</span></span></code></pre></div>
+<p>Expect <code>200 OK</code> and an object containing
+<code>items</code>, <code>offset</code>, <code>limit</code>, and
+<code>total</code>. Find your <code>client_id</code> inside
+<code>items</code> and compare its <code>id</code> with the POST
+response.</p>
+<p>The tested deployment returned the same entry, with
+<code>offset: 0</code>, <code>limit: 20</code>, and
+<code>total: 1</code>. An existing database can contain more
+entries.</p>
+<p>The list sorts by <code>created_at</code> descending, not by receipt
+time. If the note is outside the first page, increase
+<code>offset</code> to <code>20</code>, then <code>40</code>, and so on.
+The default limit is 20; permitted limits are 1–100. <code>total</code>
+counts all stored entries, not just the current page.</p>
+<h2 id="retry-the-same-submission">4. Retry the same submission</h2>
+<p>Run the POST command from step 2 again without changing its
+<code>client_id</code>. Then run the GET command again.</p>
+<p>The current route checks for an existing <code>client_id</code>
+before inserting. A repeat submission returns the existing entry with
+<code>200 OK</code>. It does not update that entry, even if other
+submitted fields change. Use a new client identifier for a new note.</p>
+<p>Confirm that only one entry with the test identifier remains. The
+overall count should stay unchanged if no other requests are adding
+notes. Comparing the repeated POST’s <code>id</code> and
+<code>received_at</code> with the initial response provides an
+additional check.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Next check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Connection refused or timeout</td>
+<td>Confirm the address and port, that Forge is running, and that this
+device can reach it.</td>
+</tr>
+<tr>
+<td>HTTP 422</td>
+<td>Check JSON syntax, required fields (<code>kind</code>,
+<code>category</code>, <code>client_id</code>, <code>created_at</code>),
+allowed kind values, and the timestamp’s timezone.</td>
+</tr>
+<tr>
+<td>Note absent from first page</td>
+<td>Check the submitted <code>created_at</code> and page through the
+descending list.</td>
+</tr>
+<tr>
+<td>Repeated POST returns older text</td>
+<td>Check whether the <code>client_id</code> already exists; retries
+return the stored entry rather than update it.</td>
+</tr>
+<tr>
+<td>GET <code>/entries/&lt;UUID&gt;</code> fails</td>
+<td>Use the list endpoint. In the reviewed source, the individual-entry
+route is an integer-parameter placeholder, not a working UUID
+lookup.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="verification-record-and-scope">Verification record and
+scope</h2>
+<p>The developer ran these requests against the existing Forge
+deployment on October 13, 2026 and supplied the results:</p>
+<ul>
+<li><strong>Create:</strong> POST returned HTTP 200, a generated UUID,
+and a receipt timestamp. Omitted <code>media_path</code> returned
+<code>null</code>.</li>
+<li><strong>Retrieve:</strong> GET returned HTTP 200 with the same entry
+ID and a total count of one.</li>
+<li><strong>Retry:</strong> The developer reported subsequent POSTs
+returned HTTP 200 and the database list still contained only the
+original entry. Exact ID and timestamp equality after retries was not
+separately supplied.</li>
+</ul>
+<p>The request schema, pagination rules, descending sort, and
+return-existing retry behavior were also reviewed in the supplied models
+and route code. Changed-payload retries, concurrent submissions, error
+cases, and pagination across multiple pages were not exercised. The
+guide does not claim those checks passed.</p>
+<p>This sample documents a personal project. It excludes Opportunity
+models, personal note contents, private network addresses, iPhone
+automation, service installation, and authentication setup.</p>
+</body>
+</html>
