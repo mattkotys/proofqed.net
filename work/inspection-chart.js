@@ -11,7 +11,8 @@ try {
     startOnLoad: false,
     theme: 'base',
     securityLevel: 'strict',
-    flowchart: { htmlLabels: false, curve: 'linear' },
+    htmlLabels: false,
+    flowchart: { curve: 'linear' },
     themeVariables: {
       fontFamily: 'system-ui, sans-serif',
       lineColor: '#26332f',

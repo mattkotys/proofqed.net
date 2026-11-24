@@ -107,8 +107,9 @@ p:last-child, .list:last-child { margin-bottom: 0; }
 #inspection-chart-text { margin-top: 1rem; }
 #inspection-chart-text summary { cursor: pointer; }
 
-/* Mermaid's SVG labels use fill for their text color. */
-.inspection-chart .node.decision text,
-.inspection-chart .node.decision tspan {
+/* Mermaid can render labels as SVG text or embedded HTML. */
+#inspection-chart .node.decision .label,
+#inspection-chart .node.decision .label * {
+  color: var(--paper) !important;
   fill: var(--paper) !important;
 }
