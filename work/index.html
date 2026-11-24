@@ -45,50 +45,62 @@
     </section>
     <section class="section" aria-labelledby="routing-title">
       <h2 id="routing-title">Decision guide</h2>
-      <p class="measure">Start at the top for each lot. A hold applies only to that lot.</p>
-      <ol class="decision-tree">
-        <li>
-          <div class="decision-question">
-            <h3>Do the identity, count, and condition match?</h3>
-            <p class="decision-next"><strong>Yes</strong><span aria-hidden="true">↓</span></p>
-          </div>
-          <div class="decision-hold">
-            <p class="decision-no"><strong>No</strong><span aria-hidden="true">→</span></p>
-            <p>Hold and record the discrepancy. Purchasing handles supplier questions. Quality evaluates damage.</p>
-          </div>
-        </li>
-        <li>
-          <div class="decision-question">
-            <h3>Does the required paperwork match the lot?</h3>
-            <p class="decision-next"><strong>Yes</strong><span aria-hidden="true">↓</span></p>
-          </div>
-          <div class="decision-hold">
-            <p class="decision-no"><strong>No</strong><span aria-hidden="true">→</span></p>
-            <p>Hold for Purchasing to obtain a correction. Receiving rechecks the paperwork.</p>
-          </div>
-        </li>
-        <li>
-          <div class="decision-question">
-            <h3>Are the inspection criteria clear?</h3>
-            <p class="decision-next"><strong>Yes</strong><span aria-hidden="true">↓</span></p>
-          </div>
-          <div class="decision-hold">
-            <p class="decision-no"><strong>No</strong><span aria-hidden="true">→</span></p>
-            <p>Hold until Quality confirms the applicable inspection plan.</p>
-          </div>
-        </li>
-        <li>
-          <div class="decision-question">
-            <h3>Do all inspection checks pass?</h3>
-            <p class="decision-next"><strong>Yes</strong><span aria-hidden="true">↓</span></p>
-          </div>
-          <div class="decision-hold">
-            <p class="decision-no"><strong>No</strong><span aria-hidden="true">→</span></p>
-            <p>Hold for Quality to record the nonconformance and decide what happens to the lot.</p>
-          </div>
-        </li>
-        <li class="decision-release"><strong>Release to stock.</strong> Quality approves release. Receiving moves the lot and records the location.</li>
-      </ol>
+      <p class="measure">Follow the checks for each lot. A hold applies only to the affected lot.</p>
+      <div class="inspection-chart" id="inspection-chart" hidden></div>
+      <script type="text/plain" id="inspection-chart-source">
+flowchart TD
+  accTitle: Incoming inspection decision guide
+  accDescr: Four yes-or-no checks route each lot to release or to a hold with an assigned owner.
+  A{"Identity, count,<br/>and condition match?"}
+  B{"Required paperwork<br/>matches the lot?"}
+  C{"Inspection criteria<br/>are clear?"}
+  D{"All inspection<br/>checks pass?"}
+  E["Release to stock<br/>Quality approves. Receiving records location."]
+  H1["Hold for discrepancy<br/>Purchasing handles supplier questions.<br/>Quality evaluates damage."]
+  H2["Hold for paperwork<br/>Purchasing obtains a correction.<br/>Receiving rechecks it."]
+  H3["Hold for criteria<br/>Quality confirms the inspection plan."]
+  H4["Hold for failed inspection<br/>Quality records and decides disposition."]
+
+  A -->|Yes| B
+  B -->|Yes| C
+  C -->|Yes| D
+  D -->|Yes| E
+  A -->|No| H1
+  B -->|No| H2
+  C -->|No| H3
+  D -->|No| H4
+
+  classDef check fill:#173d34,color:#f5f2e9,stroke:#173d34
+  classDef hold fill:#f5f2e9,color:#26332f,stroke:#8a6a36
+  class A,B,C,D,E check
+  class H1,H2,H3,H4 hold
+      </script>
+      <details open id="inspection-chart-text">
+        <summary>Read the decision guide as text</summary>
+      <p class="measure">Follow the first applicable case for each lot. Other lots on the delivery continue through their own checks.</p>
+      <dl class="split sample-grid">
+        <div class="sample">
+          <dt><strong>Identity, count, or condition is wrong</strong></dt>
+          <dd>Receiving holds and records the discrepancy. Purchasing handles supplier questions. Quality evaluates damaged material.</dd>
+        </div>
+        <div class="sample">
+          <dt><strong>Required paperwork is missing or mismatched</strong></dt>
+          <dd>Purchasing obtains corrected paperwork. Receiving rechecks it before routing the lot back to Quality.</dd>
+        </div>
+        <div class="sample">
+          <dt><strong>Inspection criteria are unclear</strong></dt>
+          <dd>Quality confirms the applicable plan before the lot can be inspected or released.</dd>
+        </div>
+        <div class="sample">
+          <dt><strong>An inspection check fails</strong></dt>
+          <dd>Quality records the nonconformance and disposition. The lot stays on hold until that disposition is carried out.</dd>
+        </div>
+        <div class="sample">
+          <dt><strong>All checks pass</strong></dt>
+          <dd>Quality approves release. Receiving moves the lot to stock and records the location.</dd>
+        </div>
+      </dl>
+      </details>
     </section>
     <section class="section split">
       <h2>Two lots, one delivery</h2>
@@ -104,5 +116,6 @@
       <a href="mailto:matt@proofqed.net">Email Matt</a>
     </nav>
   </footer>
+  <script type="module" src="/work/inspection-chart.js"></script>
 </body>
 </html>
