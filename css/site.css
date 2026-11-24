@@ -1,0 +1,88 @@
+:root {
+  color-scheme: light;
+  --paper: #f7f5ef;
+  --ink: #183d37;
+  --muted: #465c54;
+  --accent: #3d6854;
+  --rule: #b8c5b7;
+  --panel: #e8ede1;
+  --white: #fffdf8;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 1rem/1.6 system-ui, sans-serif;
+}
+
+.wrap { width: min(70rem, calc(100% - 3rem)); margin-inline: auto; }
+a { color: inherit; text-underline-offset: 0.2em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+.skip-link { position: absolute; top: 0.5rem; left: 0.5rem; padding: 0.6rem; background: var(--white); }
+.skip-link:not(:focus) { clip-path: inset(50%); }
+
+.site-header, .site-footer, nav, .actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.25rem;
+}
+
+.site-header, .site-footer { justify-content: space-between; padding-block: 1rem; }
+.site-header { border-bottom: 1px solid var(--rule); }
+.site-footer { border-top: 1px solid var(--rule); font-size: 0.875rem; }
+nav a { padding-block: 0.35rem; text-decoration: none; }
+nav a:hover, nav a[aria-current] { text-decoration: underline; }
+.brand { display: inline-flex; align-items: center; gap: 0.55rem; font-weight: 700; text-decoration: none; }
+.brand span { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--ink); color: var(--white); }
+
+h1, h2, h3, p { margin: 0 0 0.75em; }
+h1, h2, .sample h3 { font-family: Georgia, serif; font-weight: 400; line-height: 1.1; }
+h1 { max-width: 15ch; font-size: clamp(2.75rem, 6.2vw, 5.8rem); letter-spacing: -0.045em; margin-bottom: 0.28em; }
+h1 em { color: var(--accent); }
+h2 { font-size: clamp(1.85rem, 3.2vw, 2.8rem); letter-spacing: -0.025em; margin-bottom: 0.45em; }
+h3 { font-size: 1.15rem; line-height: 1.3; margin-bottom: 0.4em; }
+p, .list { color: var(--muted); }
+p:last-child, .list:last-child { margin-bottom: 0; }
+.eyebrow { margin-bottom: 1.2rem; color: var(--accent); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.085em; text-transform: uppercase; }
+.lead { max-width: 45ch; color: var(--ink); font-size: clamp(1.14rem, 2.4vw, 1.45rem); }
+.measure { max-width: 60ch; }
+.hero { padding-block: clamp(3rem, 8vw, 6rem); }
+.section { border-top: 1px solid var(--rule); padding-block: clamp(2.25rem, 5vw, 4rem); }
+.split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem clamp(1.5rem, 6vw, 5rem); }
+.actions { margin-top: 1.4rem; }
+.text-link { display: inline-block; font-weight: 650; }
+.button {
+  display: inline-block;
+  border-radius: 0.32rem;
+  padding: 0.67rem 1.1rem;
+  background: var(--ink);
+  color: var(--white);
+  font-weight: 650;
+  text-decoration: none;
+}
+.button:hover { background: var(--accent); }
+.button:focus-visible { outline-color: var(--ink); }
+.sample { border: 1px solid var(--rule); border-radius: 0.55rem; background: var(--panel); padding: clamp(1rem, 3vw, 2rem); }
+.sample h3 { font-size: clamp(1.45rem, 2.5vw, 1.9rem); }
+.sample-grid { gap: 1rem; margin-top: 1.5rem; }
+.steps { margin: 1.5rem 0 0; padding-left: 1.4rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem 2rem; }
+.steps li::marker { font-weight: 700; color: var(--accent); }
+.list { margin: 0 0 1rem; padding-left: 1.35em; }
+.list li + li { margin-top: 0.45rem; }
+.flow, .outcomes { display: grid; gap: 0.8rem; list-style: none; padding: 0; }
+.flow > li, .outcomes li { position: relative; border: 1px solid var(--rule); border-radius: 0.3rem; background: var(--white); padding: 0.65rem; }
+.flow > li + li::before { content: ""; position: absolute; left: 50%; top: -0.85rem; height: 0.8rem; border-left: 1px solid var(--accent); }
+.outcomes { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 0.55rem; }
+.outcomes li { background: var(--panel); }
+.contact { margin-bottom: 2.5rem; padding: clamp(1.25rem, 4vw, 2.75rem); border-radius: 0.55rem; background: var(--ink); color: var(--white); }
+.contact p { color: var(--paper); }
+
+@media (max-width: 44rem) {
+  .wrap { width: calc(100% - 2rem); }
+  .split, .steps { grid-template-columns: 1fr; }
+}
