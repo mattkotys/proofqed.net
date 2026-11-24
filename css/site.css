@@ -106,3 +106,9 @@ p:last-child, .list:last-child { margin-bottom: 0; }
 
 #inspection-chart-text { margin-top: 1rem; }
 #inspection-chart-text summary { cursor: pointer; }
+
+/* Mermaid's SVG labels use fill for their text color. */
+.inspection-chart .node.decision text,
+.inspection-chart .node.decision tspan {
+  fill: var(--paper) !important;
+}
