@@ -90,3 +90,26 @@ p:last-child, .list:last-child { margin-bottom: 0; }
   .wrap { width: calc(100% - 2rem); }
   .split, .steps { grid-template-columns: 1fr; }
 }
+
+.inspection-chart {
+  max-width: 100%;
+  overflow-x: auto;
+  margin-block: 1.5rem;
+}
+
+.inspection-chart svg {
+  display: block;
+  width: 100%;
+  min-width: 32rem;
+  height: auto;
+}
+
+#inspection-chart-text { margin-top: 1rem; }
+#inspection-chart-text summary { cursor: pointer; }
+
+/* Mermaid can render labels as SVG text or embedded HTML. */
+#inspection-chart .node.decision .label,
+#inspection-chart .node.decision .label * {
+  color: var(--paper) !important;
+  fill: var(--paper) !important;
+}
